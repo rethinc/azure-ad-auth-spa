@@ -12,5 +12,10 @@ async def get_persons():
                 "name": "Hans",
                 "familyName": "Probiert"
             },
+            {
+                "id": "83b97683-6601-4958-88bc-ff74c3d3f2a5",
+                "name": "Peter",
+                "familyName": "Frickelt"
+            },
         ]
     }
