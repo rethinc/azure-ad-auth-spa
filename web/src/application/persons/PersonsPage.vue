@@ -1,33 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Person } from '@/application/persons/Person'
+import { Person } from '@/application/api/Person'
+import { useApiClient } from '@/application/api/ApiClient'
 
 const persons = ref<Person[]>()
-const apiBaseUrl = 'https://my-auth-test-api.azurewebsites.net'
+const apiClient = useApiClient()
 
 onMounted(async () => {
-  const response = await fetch(`${apiBaseUrl}/persons`)
-  const json = await response.json()
-  if (!('data' in json)) {
-    return
-  }
-
-  if (!Array.isArray(json.data)) {
-    return
-  }
-
-  let fetchedPersons = []
-  json.data.forEach((personData: object) => {
-    let person: Person = {
-      id: '',
-      name: '',
-      familyName: '',
-    }
-    Object.assign(person, personData)
-    fetchedPersons.push(person)
-  })
-
-  persons.value = fetchedPersons
+  persons.value = await apiClient.getPersons()
 })
 </script>
 
