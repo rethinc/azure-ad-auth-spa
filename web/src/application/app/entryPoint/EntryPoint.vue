@@ -9,7 +9,7 @@
 </template>
 
 <style scoped lang="scss">
-@import '../../assets/styles/colors';
+@import '../../../assets/styles/colors';
 
 p {
   color: $primary;

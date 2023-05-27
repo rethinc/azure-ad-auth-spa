@@ -1,4 +1,4 @@
-import { Person } from '@/application/api/Person'
+import { Person } from '@/application/app/api/Person'
 
 export interface PersonsResponse {
   data: Person[]

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { Person } from '@/application/api/Person'
-import { useApiClient } from '@/application/api/ApiClient'
+import { Person } from '@/application/app/api/Person'
+import { useApiClient } from '@/application/app/api/ApiClient'
 
 const persons = ref<Person[]>()
 const apiClient = useApiClient()

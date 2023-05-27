@@ -1,5 +1,5 @@
-import { Person } from '@/application/api/Person'
-import { PersonsResponse } from '@/application/api/PersonsResponse'
+import { Person } from '@/application/app/api/Person'
+import { PersonsResponse } from '@/application/app/api/PersonsResponse'
 
 export interface ApiClient {
   getPersons: () => Promise<Person[]>
