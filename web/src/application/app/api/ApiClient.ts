@@ -1,8 +1,11 @@
 import { Person } from '@/application/app/api/Person'
 import { PersonsResponse } from '@/application/app/api/PersonsResponse'
+import { Timeslot } from '@/application/app/api/Timeslot'
+import { TimeslotsResponse } from '@/application/app/api/TimeslotsResponse'
 
 export interface ApiClient {
   getPersons: (accessToken: string) => Promise<Person[]>
+  getTimeslots: (accessToken: string) => Promise<Timeslot[]>
 }
 
 const apiClient = (): ApiClient => {
@@ -22,8 +25,15 @@ const apiClient = (): ApiClient => {
       .data
   }
 
+  const getTimeslots = async (accessToken: string): Promise<Timeslot[]> => {
+    return (
+      await get<TimeslotsResponse>(`${apiBaseUrl}/timeslots`, accessToken)
+    ).data
+  }
+
   return {
     getPersons,
+    getTimeslots,
   }
 }
 
