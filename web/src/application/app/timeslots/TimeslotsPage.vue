@@ -32,7 +32,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h1>Persons</h1>
+  <h1>Timeslots</h1>
   <ul v-if="timeslots">
     <li v-for="timeslot in timeslots" :key="timeslot.id">
       {{ timeslot.weekday }} {{ timeslot.startTime }} until
