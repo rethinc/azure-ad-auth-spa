@@ -16,6 +16,7 @@
     "generate-icons": "node --experimental-specifier-resolution=node --loader ts-node/esm ./scripts/generateIcons"
   },
   "dependencies": {
+    "@azure/msal-browser": "^2.37.0",
     "vitest": "^0.31.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.1"
