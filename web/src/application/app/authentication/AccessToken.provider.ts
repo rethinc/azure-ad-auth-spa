@@ -5,7 +5,7 @@ export const provideAccessToken = (accessToken: string) => {
   provide(key, accessToken)
 }
 
-export const injectEnvironment = (): string => {
+export const injectAccessToken = (): string => {
   const accessToken = inject<string>(key)
   if (!accessToken) {
     throw Error('AccessToken is not available.')
