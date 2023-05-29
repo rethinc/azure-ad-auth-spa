@@ -3,7 +3,7 @@ import { useAuthenticationService } from '@/application/app/authentication/Authe
 
 const onLogin = async () => {
   const authenticationService = await useAuthenticationService()
-  await authenticationService.getAccessToken()
+  await authenticationService.logIn()
 }
 </script>
 

@@ -5,6 +5,7 @@ import { useMsal } from '@/msal.use'
 interface AuthenticationService {
   getAccessToken: () => Promise<string>
   isAuthenticated: () => Promise<boolean>
+  logIn: () => Promise<void>
   setLoginTargetPath: (fullPath: string) => void
   getAndClearLoginTargetPath: () => string | null
 }
@@ -23,10 +24,14 @@ const authenticationService = (
       return redirectResponse.accessToken
     } catch (e: unknown) {
       if (e instanceof InteractionRequiredAuthError) {
-        await msal.acquireTokenRedirect(tokenRequest)
+        await logIn()
       }
     }
     return ''
+  }
+
+  const logIn = async (): Promise<void> => {
+    await msal.acquireTokenRedirect(tokenRequest)
   }
 
   const isAuthenticated = async (): Promise<boolean> => {
@@ -38,21 +43,21 @@ const authenticationService = (
     }
   }
 
-  const setLoginTargetPath = (fullPath: string): void => {
-    sessionStorage.setItem('AuthenticationService.loginTargetPath', fullPath)
-  }
+  const loginTargetPathKey = 'AuthenticationService.loginTargetPath'
+
+  const setLoginTargetPath = (fullPath: string): void =>
+    sessionStorage.setItem(loginTargetPathKey, fullPath)
 
   const getAndClearLoginTargetPath = (): string | null => {
-    const fullPath = sessionStorage.getItem(
-      'AuthenticationService.loginTargetPath'
-    )
-    sessionStorage.removeItem('AuthenticationService.loginTargetPath')
+    const fullPath = sessionStorage.getItem(loginTargetPathKey)
+    sessionStorage.removeItem(loginTargetPathKey)
     return fullPath
   }
 
   return {
     getAccessToken,
     isAuthenticated,
+    logIn,
     setLoginTargetPath,
     getAndClearLoginTargetPath,
   }
