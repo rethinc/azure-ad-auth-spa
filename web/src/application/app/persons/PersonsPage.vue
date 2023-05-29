@@ -6,9 +6,9 @@ import { useAuthenticationService } from '@/application/app/authentication/Authe
 
 const persons = ref<Person[]>()
 const apiClient = useApiClient()
-const authenticationService = await useAuthenticationService()
 
 onMounted(async () => {
+  const authenticationService = await useAuthenticationService()
   persons.value = await apiClient.getPersons(
     await authenticationService.getAccessToken()
   )

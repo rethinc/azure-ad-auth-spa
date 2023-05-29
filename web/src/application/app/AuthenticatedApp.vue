@@ -1,7 +1,6 @@
 <script setup></script>
 
 <template>
-  <h1>Authenticated App</h1>
   <RouterView />
 </template>
 

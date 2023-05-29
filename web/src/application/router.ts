@@ -4,14 +4,13 @@ import {
   NavigationGuardNext,
   RouteLocation,
 } from 'vue-router'
-import PersonsPage from '@/application/app/persons/PersonsPage.vue'
-import TimeslotsPage from '@/application/app/timeslots/TimeslotsPage.vue'
 import AuthenticatedApp from '@/application/app/AuthenticatedApp.vue'
 import { useAuthenticationService } from '@/application/app/authentication/AuthenticationService'
 import LoginPage from '@/application/app/authentication/LoginPage.vue'
+import { appRoutes } from '@/application/app/routes'
 
 const root = {
-  path: '/',
+  path: '/app',
   component: AuthenticatedApp,
   beforeEnter: async (
     to: RouteLocation,
@@ -25,7 +24,7 @@ const root = {
       return next({ path: '/login' })
     }
   },
-  children: [],
+  children: appRoutes,
 }
 
 export const router = createRouter({
@@ -33,16 +32,16 @@ export const router = createRouter({
   routes: [
     root,
     {
+      path: '/',
+      redirect: '/app',
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: { path: '/' },
+    },
+    {
       path: '/login',
       component: LoginPage,
-    },
-    {
-      path: '/persons',
-      component: PersonsPage,
-    },
-    {
-      path: '/timeslots',
-      component: TimeslotsPage,
     },
   ],
 })
