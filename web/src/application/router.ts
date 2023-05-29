@@ -9,7 +9,7 @@ import { useAuthenticationService } from '@/application/app/authentication/Authe
 import LoginPage from '@/application/app/authentication/LoginPage.vue'
 import { appRoutes } from '@/application/app/routes'
 
-const root = {
+const appRoute = {
   path: '/app',
   component: AuthenticatedApp,
   beforeEnter: async (
@@ -21,6 +21,7 @@ const root = {
     if (await authenticationService.isAuthenticated()) {
       return next()
     } else {
+      console.log('Preventing access to', to.path)
       return next({ path: '/login' })
     }
   },
@@ -30,18 +31,14 @@ const root = {
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
-    root,
-    {
-      path: '/',
-      redirect: '/app',
-    },
-    {
-      path: '/:pathMatch(.*)*',
-      redirect: { path: '/' },
-    },
+    appRoute,
     {
       path: '/login',
       component: LoginPage,
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: { path: '/app' },
     },
   ],
 })

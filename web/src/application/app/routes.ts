@@ -5,7 +5,7 @@ import TimeslotsPage from '@/application/app/timeslots/TimeslotsPage.vue'
 export const appRoutes: RouteRecordRaw[] = [
   {
     path: '',
-    redirect: '/app/persons',
+    component: PersonsPage,
   },
   {
     path: 'persons',
