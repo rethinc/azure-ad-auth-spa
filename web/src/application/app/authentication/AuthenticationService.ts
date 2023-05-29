@@ -5,6 +5,8 @@ import { useMsal } from '@/msal.use'
 interface AuthenticationService {
   getAccessToken: () => Promise<string>
   isAuthenticated: () => Promise<boolean>
+  setLoginTargetPath: (fullPath: string) => void
+  getAndClearLoginTargetPath: () => string | null
 }
 
 const authenticationService = (
@@ -36,9 +38,23 @@ const authenticationService = (
     }
   }
 
+  const setLoginTargetPath = (fullPath: string): void => {
+    sessionStorage.setItem('AuthenticationService.loginTargetPath', fullPath)
+  }
+
+  const getAndClearLoginTargetPath = (): string | null => {
+    const fullPath = sessionStorage.getItem(
+      'AuthenticationService.loginTargetPath'
+    )
+    sessionStorage.removeItem('AuthenticationService.loginTargetPath')
+    return fullPath
+  }
+
   return {
     getAccessToken,
     isAuthenticated,
+    setLoginTargetPath,
+    getAndClearLoginTargetPath,
   }
 }
 

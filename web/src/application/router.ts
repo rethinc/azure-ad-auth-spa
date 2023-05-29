@@ -19,9 +19,14 @@ const appRoute = {
   ) => {
     const authenticationService = await useAuthenticationService()
     if (await authenticationService.isAuthenticated()) {
-      return next()
+      const loginTargetPath = authenticationService.getAndClearLoginTargetPath()
+      if (loginTargetPath !== null) {
+        return next({ path: loginTargetPath })
+      } else {
+        return next()
+      }
     } else {
-      console.log('Preventing access to', to.path)
+      authenticationService.setLoginTargetPath(to.fullPath)
       return next({ path: '/login' })
     }
   },
