@@ -2,16 +2,13 @@
 import { onMounted, ref } from 'vue'
 import { Person } from '@/application/app/api/Person'
 import { useApiClient } from '@/application/app/api/ApiClient'
-import { useAuthenticationService } from '@/application/app/authentication/AuthenticationService'
+import { injectAccessToken } from '@/application/app/authentication/AccessToken.provider'
 
 const persons = ref<Person[]>()
 const apiClient = useApiClient()
 
 onMounted(async () => {
-  const authenticationService = await useAuthenticationService()
-  persons.value = await apiClient.getPersons(
-    await authenticationService.getAccessToken()
-  )
+  persons.value = await apiClient.getPersons(injectAccessToken())
 })
 </script>
 
