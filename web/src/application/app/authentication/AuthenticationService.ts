@@ -1,4 +1,7 @@
-import { PublicClientApplication } from '@azure/msal-browser'
+import {
+  AuthenticationResult,
+  PublicClientApplication,
+} from '@azure/msal-browser'
 import { useMsal } from '@/msal.use'
 
 export interface AuthenticationService {
@@ -23,31 +26,34 @@ const authenticationService = (
     await msal.initialize()
   }
 
+  const getAuthenticationResult =
+    async (): Promise<AuthenticationResult | null> => {
+      const resultFromCallback = await msal.handleRedirectPromise()
+      if (resultFromCallback !== null) {
+        return resultFromCallback
+      }
+      try {
+        return await msal.acquireTokenSilent(tokenRequest)
+      } catch (e) {
+        await logIn()
+        return null // dead code as logIn() will navigate away
+      }
+    }
+
   const getAccessToken = async (): Promise<string> => {
-    const callbackResult = await msal.handleRedirectPromise()
-    if (callbackResult?.accessToken !== undefined) {
-      return callbackResult.accessToken
+    const authenticationResult = await getAuthenticationResult()
+    if (authenticationResult !== null) {
+      return authenticationResult.accessToken
     }
-    try {
-      const authResult = await msal.acquireTokenSilent(tokenRequest)
-      return authResult.accessToken
-    } catch (e) {
-      await logIn()
-      return ''
-    }
+    return '' // dead code as getAuthenticationResult() navigate away if there's no token
   }
 
   const getUserName = async (): Promise<string | undefined> => {
-    const callbackResult = await msal.handleRedirectPromise()
-    if (callbackResult?.account?.username !== undefined) {
-      return callbackResult.account.username
+    const authenticationResult = await getAuthenticationResult()
+    if (authenticationResult !== null) {
+      return authenticationResult.account?.username
     }
-    try {
-      const authResult = await msal.acquireTokenSilent(tokenRequest)
-      return authResult.account?.username ?? undefined
-    } catch (e) {
-      return undefined
-    }
+    return '' // dead code as getAuthenticationResult() navigate away if there's no token
   }
 
   const logIn = async (): Promise<void> => {
