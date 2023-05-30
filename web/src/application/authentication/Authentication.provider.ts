@@ -1,5 +1,5 @@
 import { inject, provide } from 'vue'
-import { Authentication } from '@/application/app/authentication/Authentication'
+import { Authentication } from '@/application/authentication/Authentication'
 
 const key = 'authentication'
 export const provideAuthentication = (authentication: Authentication) => {

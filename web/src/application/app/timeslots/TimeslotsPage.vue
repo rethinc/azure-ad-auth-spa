@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useApiClient } from '@/application/app/api/ApiClient'
 import { Timeslot } from '@/application/app/api/Timeslot'
-import { injectAuthentication } from '@/application/app/authentication/Authentication.provider'
+import { injectAuthentication } from '@/application/authentication/Authentication.provider'
 
 const timeslots = ref<Timeslot[]>()
 const apiClient = useApiClient()

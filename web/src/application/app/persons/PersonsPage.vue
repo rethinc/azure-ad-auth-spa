@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { Person } from '@/application/app/api/Person'
 import { useApiClient } from '@/application/app/api/ApiClient'
-import { injectAuthentication } from '@/application/app/authentication/Authentication.provider'
+import { injectAuthentication } from '@/application/authentication/Authentication.provider'
 
 const persons = ref<Person[]>()
 const apiClient = useApiClient()

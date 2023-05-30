@@ -4,11 +4,11 @@ import {
   NavigationGuardNext,
   RouteLocation,
 } from 'vue-router'
-import { useAuthenticationService } from '@/application/app/authentication/AuthenticationService'
-import LoginPage from '@/application/login/LoginPage.vue'
+import { useAuthenticationService } from '@/application/authentication/AuthenticationService'
+import LoginPage from '@/application/LoginPage.vue'
 import { appRoutes } from '@/application/app/routes'
 import { loadEnvironment } from '@/Environment'
-import AuthenticatedApp from '@/application/app/AuthenticatedApp.vue'
+import AuthenticatedApp from '@/application/AuthenticatedApp.vue'
 
 const appRoute = {
   path: '/app',

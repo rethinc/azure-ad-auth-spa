@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAuthenticationService } from '@/application/app/authentication/AuthenticationService'
+import { useAuthenticationService } from '@/application/authentication/AuthenticationService'
 import { injectEnvironment } from '@/Environment.provider'
 
 const environment = injectEnvironment()

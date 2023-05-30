@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useAuthenticationService } from '@/application/app/authentication/AuthenticationService'
-import { useAuthentication } from '@/application/app/authentication/Authentication'
-import { provideAuthentication } from '@/application/app/authentication/Authentication.provider'
+import { useAuthenticationService } from '@/application/authentication/AuthenticationService'
+import { useAuthentication } from '@/application/authentication/Authentication'
+import { provideAuthentication } from '@/application/authentication/Authentication.provider'
 import AppLayout from '@/application/app/AppLayout.vue'
 import { injectEnvironment } from '@/Environment.provider'
 
@@ -12,7 +12,7 @@ const initialized = ref(false)
 provideAuthentication(useAuthentication(environment))
 
 onMounted(async () => {
-  const authenticationService = await useAuthenticationService(environment)
+  const authenticationService = useAuthenticationService(environment)
   await authenticationService.initialize()
   initialized.value = true
 })
@@ -30,5 +30,5 @@ onMounted(async () => {
 </template>
 
 <style lang="scss">
-@import '../../assets/styles/global';
+@import '../assets/styles/global';
 </style>

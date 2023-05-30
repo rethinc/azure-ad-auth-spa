@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { injectAuthentication } from '@/application/app/authentication/Authentication.provider'
+import { injectAuthentication } from '@/application/authentication/Authentication.provider'
 
 const userName = ref<string | undefined>()
 const auth = injectAuthentication()

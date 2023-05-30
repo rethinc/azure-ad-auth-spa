@@ -1,7 +1,7 @@
 import {
   AuthenticationService,
   useAuthenticationService,
-} from '@/application/app/authentication/AuthenticationService'
+} from '@/application/authentication/AuthenticationService'
 import { Environment } from '@/Environment'
 
 export interface Authentication {
