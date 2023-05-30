@@ -1,12 +1,9 @@
-import {
-  AuthenticationResult,
-  InteractionRequiredAuthError,
-} from '@azure/msal-common'
+import { AuthenticationResult } from '@azure/msal-common'
 import { PublicClientApplication } from '@azure/msal-browser'
 import { useMsal } from '@/msal.use'
 
-interface AuthenticationService {
-  getAccessToken: () => Promise<string>
+export interface AuthenticationService {
+  getAccessToken: () => Promise<string | null>
   isAuthenticated: () => Promise<boolean>
   handleRedirectResponse: () => Promise<AuthenticationResult | null>
   logIn: () => Promise<void>
@@ -22,16 +19,17 @@ const authenticationService = (
     forceRefresh: false,
   }
 
-  const getAccessToken = async (): Promise<string> => {
-    try {
-      const redirectResponse = await msal.acquireTokenSilent(tokenRequest)
-      return redirectResponse.accessToken
-    } catch (e: unknown) {
-      if (e instanceof InteractionRequiredAuthError) {
-        await logIn()
-      }
+  const getAccessToken = async (): Promise<string | null> => {
+    const callbackResult = await handleRedirectResponse()
+    if (callbackResult?.accessToken !== undefined) {
+      return callbackResult.accessToken
     }
-    return ''
+    try {
+      const authResult = await msal.acquireTokenSilent(tokenRequest)
+      return authResult.accessToken
+    } catch (e) {
+      return null
+    }
   }
 
   const logIn = async (): Promise<void> => {
@@ -40,6 +38,10 @@ const authenticationService = (
   }
 
   const isAuthenticated = async (): Promise<boolean> => {
+    const redirectResponse = await handleRedirectResponse()
+    if (redirectResponse?.accessToken !== undefined) {
+      return true
+    }
     try {
       await msal.acquireTokenSilent(tokenRequest)
       return true
