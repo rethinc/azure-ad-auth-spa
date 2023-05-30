@@ -41,13 +41,10 @@ const loginRoute = {
     from: RouteLocation,
     next: NavigationGuardNext
   ) => {
-    console.log('entering /login')
     const authenticationService = useAuthenticationService()
     if (await authenticationService.isAuthenticated()) {
-      console.log('redirecting to app')
       return next({ path: '/app' })
     } else {
-      console.log('staying on /login')
       return next()
     }
   },

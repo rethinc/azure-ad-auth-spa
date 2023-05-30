@@ -1,6 +1,6 @@
-import { AuthenticationResult } from '@azure/msal-common'
-import { PublicClientApplication } from '@azure/msal-browser'
-import { useMsal } from '@/msal.use'
+import { AuthenticationResult } from "@azure/msal-common";
+import { PublicClientApplication } from "@azure/msal-browser";
+import { useMsal } from "@/msal.use";
 
 export interface AuthenticationService {
   initialize: () => Promise<void>
@@ -58,9 +58,7 @@ const authenticationService = (
 
   const handleRedirectResponse =
     async (): Promise<AuthenticationResult | null> => {
-      const result = await msal.handleRedirectPromise()
-      console.log('Handled redirect response. Token:', result?.accessToken)
-      return result
+      return await msal.handleRedirectPromise()
     }
 
   const loginTargetPathKey = 'AuthenticationService.loginTargetPath'
