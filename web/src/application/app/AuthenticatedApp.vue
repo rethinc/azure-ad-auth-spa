@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { provideAccessToken } from '@/application/app/authentication/AccessToken.provider'
 import { useAuthenticationService } from '@/application/app/authentication/AuthenticationService'
+import { useAuthentication } from '@/application/app/authentication/Authentication'
+import { provideAuthentication } from '@/application/app/authentication/Authentication.provider'
 
 const initialized = ref(false)
+provideAuthentication(useAuthentication())
 
 onMounted(async () => {
   const authenticationService = await useAuthenticationService()
   await authenticationService.initialize()
-  provideAccessToken((await authenticationService.getAccessToken()) ?? '')
   initialized.value = true
 })
 </script>

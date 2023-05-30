@@ -4,7 +4,7 @@ import { useMsal } from '@/msal.use'
 
 export interface AuthenticationService {
   initialize: () => Promise<void>
-  getAccessToken: () => Promise<string | null>
+  getAccessToken: () => Promise<string>
   isAuthenticated: () => Promise<boolean>
   handleRedirectResponse: () => Promise<AuthenticationResult | null>
   logIn: () => Promise<void>
@@ -24,7 +24,7 @@ const authenticationService = (
     await msal.initialize()
   }
 
-  const getAccessToken = async (): Promise<string | null> => {
+  const getAccessToken = async (): Promise<string> => {
     const callbackResult = await handleRedirectResponse()
     if (callbackResult?.accessToken !== undefined) {
       return callbackResult.accessToken
@@ -33,7 +33,8 @@ const authenticationService = (
       const authResult = await msal.acquireTokenSilent(tokenRequest)
       return authResult.accessToken
     } catch (e) {
-      return null
+      await logIn()
+      return ''
     }
   }
 

@@ -2,13 +2,14 @@
 import { onMounted, ref } from 'vue'
 import { useApiClient } from '@/application/app/api/ApiClient'
 import { Timeslot } from '@/application/app/api/Timeslot'
-import { injectAccessToken } from '@/application/app/authentication/AccessToken.provider'
+import { injectAuthentication } from '@/application/app/authentication/Authentication.provider'
 
 const timeslots = ref<Timeslot[]>()
 const apiClient = useApiClient()
 
 onMounted(async () => {
-  timeslots.value = await apiClient.getTimeslots(injectAccessToken())
+  const auth = injectAuthentication()
+  timeslots.value = await apiClient.getTimeslots(await auth.getAccessToken())
 })
 </script>
 
