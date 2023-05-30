@@ -7,7 +7,7 @@ import { useMsal } from '@/msal.use'
 export interface AuthenticationService {
   initialize: () => Promise<void>
   getAccessToken: () => Promise<string>
-  getUserName: () => Promise<string | undefined>
+  getUserName: () => Promise<string | null>
   isAuthenticated: () => Promise<boolean>
   logIn: () => Promise<void>
   logOut: () => Promise<void>
@@ -49,10 +49,10 @@ const authenticationService = (
     return '' // dead code as getAuthenticationResult() navigate away if there's no token
   }
 
-  const getUserName = async (): Promise<string | undefined> => {
+  const getUserName = async (): Promise<string | null> => {
     const authenticationResult = await getAuthenticationResult()
     if (authenticationResult !== null) {
-      return authenticationResult.account?.username
+      return authenticationResult.account?.username ?? null
     }
     return '' // dead code as getAuthenticationResult() navigate away if there's no token
   }
