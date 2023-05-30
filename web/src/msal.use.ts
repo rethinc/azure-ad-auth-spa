@@ -17,6 +17,7 @@ export const useMsal = (): PublicClientApplication => {
       authority:
         'https://login.microsoftonline.com/3e5afe5d-334d-44b2-b3be-a3123c377985',
       redirectUri: 'http://localhost:5173/login',
+      postLogoutRedirectUri: 'https://localhost:5173/login',
     },
     cache: {
       cacheLocation: BrowserCacheLocation.SessionStorage,

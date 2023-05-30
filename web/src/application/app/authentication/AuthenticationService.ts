@@ -10,6 +10,7 @@ export interface AuthenticationService {
   getUserName: () => Promise<string | undefined>
   isAuthenticated: () => Promise<boolean>
   logIn: () => Promise<void>
+  logOut: () => Promise<void>
   setLoginTargetPath: (fullPath: string) => void
   getAndClearLoginTargetPath: () => string | null
 }
@@ -61,6 +62,10 @@ const authenticationService = (
     await msal.acquireTokenRedirect(tokenRequest)
   }
 
+  const logOut = async (): Promise<void> => {
+    await msal.logoutRedirect()
+  }
+
   const isAuthenticated = async (): Promise<boolean> => {
     const redirectResponse = await msal.handleRedirectPromise()
     if (redirectResponse?.accessToken !== undefined) {
@@ -91,6 +96,7 @@ const authenticationService = (
     getUserName,
     isAuthenticated,
     logIn,
+    logOut,
     setLoginTargetPath,
     getAndClearLoginTargetPath,
   }

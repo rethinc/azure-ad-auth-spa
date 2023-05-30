@@ -11,7 +11,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="userName">Logged in as {{ userName }}</div>
+  <div v-if="userName">
+    Logged in as {{ userName }} | <button @click="auth.logOut">Logout</button>
+  </div>
   <ul>
     <li><RouterLink to="/app/persons">Persons</RouterLink></li>
     <li><RouterLink to="/app/timeslots">Timeslots</RouterLink></li>

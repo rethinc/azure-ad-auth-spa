@@ -6,6 +6,7 @@ import {
 export interface Authentication {
   getAccessToken: () => Promise<string>
   getUserName: () => Promise<string | undefined>
+  logOut: () => Promise<void>
 }
 
 const authentication = (
@@ -19,9 +20,14 @@ const authentication = (
     return authenticationServie.getUserName()
   }
 
+  const logOut = (): Promise<void> => {
+    return authenticationServie.logOut()
+  }
+
   return {
     getAccessToken,
     getUserName,
+    logOut,
   }
 }
 
