@@ -1,6 +1,6 @@
-import { AuthenticationResult } from "@azure/msal-common";
-import { PublicClientApplication } from "@azure/msal-browser";
-import { useMsal } from "@/msal.use";
+import { AuthenticationResult } from '@azure/msal-common'
+import { PublicClientApplication } from '@azure/msal-browser'
+import { useMsal } from '@/msal.use'
 
 export interface AuthenticationService {
   initialize: () => Promise<void>
