@@ -1,9 +1,12 @@
 import * as msal from '@azure/msal-browser'
-import { BrowserCacheLocation, PublicClientApplication } from "@azure/msal-browser";
+import {
+  BrowserCacheLocation,
+  PublicClientApplication,
+} from '@azure/msal-browser'
 
 let instance: PublicClientApplication | null = null
 
-export const useMsal = async (): Promise<PublicClientApplication> => {
+export const useMsal = (): PublicClientApplication => {
   if (instance != null) {
     return instance
   }
@@ -21,10 +24,7 @@ export const useMsal = async (): Promise<PublicClientApplication> => {
     },
   }
 
-  const newInstance = new msal.PublicClientApplication(msalConfig)
-  await newInstance.initialize()
-
-  instance = newInstance
+  instance = new msal.PublicClientApplication(msalConfig)
 
   return instance
 }

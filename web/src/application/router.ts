@@ -17,7 +17,7 @@ const appRoute = {
     from: RouteLocation,
     next: NavigationGuardNext
   ) => {
-    const authenticationService = await useAuthenticationService()
+    const authenticationService = useAuthenticationService()
     if (await authenticationService.isAuthenticated()) {
       const loginTargetPath = authenticationService.getAndClearLoginTargetPath()
       if (loginTargetPath !== null) {
@@ -42,7 +42,7 @@ const loginRoute = {
     next: NavigationGuardNext
   ) => {
     console.log('entering /login')
-    const authenticationService = await useAuthenticationService()
+    const authenticationService = useAuthenticationService()
     if (await authenticationService.isAuthenticated()) {
       console.log('redirecting to app')
       return next({ path: '/app' })

@@ -7,7 +7,8 @@ const initialized = ref(false)
 
 onMounted(async () => {
   const authenticationService = await useAuthenticationService()
-  provideAccessToken(await authenticationService.getAccessToken())
+  await authenticationService.initialize()
+  provideAccessToken((await authenticationService.getAccessToken()) ?? '')
   initialized.value = true
 })
 </script>

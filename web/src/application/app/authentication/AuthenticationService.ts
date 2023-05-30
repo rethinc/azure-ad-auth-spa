@@ -3,6 +3,7 @@ import { PublicClientApplication } from '@azure/msal-browser'
 import { useMsal } from '@/msal.use'
 
 export interface AuthenticationService {
+  initialize: () => Promise<void>
   getAccessToken: () => Promise<string | null>
   isAuthenticated: () => Promise<boolean>
   handleRedirectResponse: () => Promise<AuthenticationResult | null>
@@ -17,6 +18,10 @@ const authenticationService = (
   const tokenRequest = {
     scopes: ['api://3f22301d-51a2-4374-b364-583d93122ab5/user_impersonation'],
     forceRefresh: false,
+  }
+
+  const initialize = async (): Promise<void> => {
+    await msal.initialize()
   }
 
   const getAccessToken = async (): Promise<string | null> => {
@@ -69,6 +74,7 @@ const authenticationService = (
   }
 
   return {
+    initialize,
     getAccessToken,
     isAuthenticated,
     handleRedirectResponse,
@@ -78,7 +84,6 @@ const authenticationService = (
   }
 }
 
-export const useAuthenticationService =
-  async (): Promise<AuthenticationService> => {
-    return authenticationService(await useMsal())
-  }
+export const useAuthenticationService = (): AuthenticationService => {
+  return authenticationService(useMsal())
+}
