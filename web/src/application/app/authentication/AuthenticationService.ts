@@ -1,4 +1,3 @@
-import { AuthenticationResult } from '@azure/msal-common'
 import { PublicClientApplication } from '@azure/msal-browser'
 import { useMsal } from '@/msal.use'
 
@@ -7,7 +6,6 @@ export interface AuthenticationService {
   getAccessToken: () => Promise<string>
   getUserName: () => Promise<string | undefined>
   isAuthenticated: () => Promise<boolean>
-  handleRedirectResponse: () => Promise<AuthenticationResult | null>
   logIn: () => Promise<void>
   setLoginTargetPath: (fullPath: string) => void
   getAndClearLoginTargetPath: () => string | null
@@ -26,7 +24,7 @@ const authenticationService = (
   }
 
   const getAccessToken = async (): Promise<string> => {
-    const callbackResult = await handleRedirectResponse()
+    const callbackResult = await msal.handleRedirectPromise()
     if (callbackResult?.accessToken !== undefined) {
       return callbackResult.accessToken
     }
@@ -40,7 +38,7 @@ const authenticationService = (
   }
 
   const getUserName = async (): Promise<string | undefined> => {
-    const callbackResult = await handleRedirectResponse()
+    const callbackResult = await msal.handleRedirectPromise()
     if (callbackResult?.account?.username !== undefined) {
       return callbackResult.account.username
     }
@@ -53,12 +51,12 @@ const authenticationService = (
   }
 
   const logIn = async (): Promise<void> => {
-    await handleRedirectResponse()
+    await msal.handleRedirectPromise()
     await msal.acquireTokenRedirect(tokenRequest)
   }
 
   const isAuthenticated = async (): Promise<boolean> => {
-    const redirectResponse = await handleRedirectResponse()
+    const redirectResponse = await msal.handleRedirectPromise()
     if (redirectResponse?.accessToken !== undefined) {
       return true
     }
@@ -69,11 +67,6 @@ const authenticationService = (
       return false
     }
   }
-
-  const handleRedirectResponse =
-    async (): Promise<AuthenticationResult | null> => {
-      return await msal.handleRedirectPromise()
-    }
 
   const loginTargetPathKey = 'AuthenticationService.loginTargetPath'
 
@@ -91,7 +84,6 @@ const authenticationService = (
     getAccessToken,
     getUserName,
     isAuthenticated,
-    handleRedirectResponse,
     logIn,
     setLoginTargetPath,
     getAndClearLoginTargetPath,
