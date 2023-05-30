@@ -16,6 +16,10 @@ onMounted(async () => {
 
 <template>
   <template v-if="initialized">
+    <ul>
+      <li><RouterLink to="/app/persons">Persons</RouterLink></li>
+      <li><RouterLink to="/app/timeslots">Timeslots</RouterLink></li>
+    </ul>
     <RouterView />
   </template>
   <template v-else>
