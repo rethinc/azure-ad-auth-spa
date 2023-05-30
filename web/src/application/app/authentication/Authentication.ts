@@ -2,10 +2,11 @@ import {
   AuthenticationService,
   useAuthenticationService,
 } from '@/application/app/authentication/AuthenticationService'
+import { Environment } from '@/Environment'
 
 export interface Authentication {
   getAccessToken: () => Promise<string>
-  getUserName: () => Promise<string | undefined>
+  getUserName: () => Promise<string | null>
   logOut: () => Promise<void>
 }
 
@@ -16,7 +17,7 @@ const authentication = (
     return authenticationServie.getAccessToken()
   }
 
-  const getUserName = (): Promise<string | undefined> => {
+  const getUserName = (): Promise<string | null> => {
     return authenticationServie.getUserName()
   }
 
@@ -31,5 +32,5 @@ const authentication = (
   }
 }
 
-export const useAuthentication = () =>
-  authentication(useAuthenticationService())
+export const useAuthentication = (environment: Environment) =>
+  authentication(useAuthenticationService(environment))

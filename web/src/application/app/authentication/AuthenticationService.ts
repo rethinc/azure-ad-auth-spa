@@ -3,6 +3,7 @@ import {
   PublicClientApplication,
 } from '@azure/msal-browser'
 import { useMsal } from '@/msal.use'
+import { Environment } from '@/Environment'
 
 export interface AuthenticationService {
   initialize: () => Promise<void>
@@ -102,6 +103,8 @@ const authenticationService = (
   }
 }
 
-export const useAuthenticationService = (): AuthenticationService => {
-  return authenticationService(useMsal())
+export const useAuthenticationService = (
+  environment: Environment
+): AuthenticationService => {
+  return authenticationService(useMsal(environment))
 }

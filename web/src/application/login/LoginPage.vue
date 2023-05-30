@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { useAuthenticationService } from '@/application/app/authentication/AuthenticationService'
+import { injectEnvironment } from '@/Environment.provider'
+
+const environment = injectEnvironment()
 
 const onLogin = async () => {
-  const authenticationService = await useAuthenticationService()
+  const authenticationService = await useAuthenticationService(environment)
   await authenticationService.logIn()
 }
 </script>

@@ -6,7 +6,7 @@ const userName = ref<string | undefined>()
 const auth = injectAuthentication()
 
 onMounted(async () => {
-  userName.value = await auth.getUserName()
+  userName.value = (await auth.getUserName()) ?? undefined
 })
 </script>
 

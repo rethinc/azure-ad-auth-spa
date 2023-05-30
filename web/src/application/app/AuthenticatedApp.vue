@@ -4,12 +4,15 @@ import { useAuthenticationService } from '@/application/app/authentication/Authe
 import { useAuthentication } from '@/application/app/authentication/Authentication'
 import { provideAuthentication } from '@/application/app/authentication/Authentication.provider'
 import AppLayout from '@/application/app/AppLayout.vue'
+import { injectEnvironment } from '@/Environment.provider'
+
+const environment = injectEnvironment()
 
 const initialized = ref(false)
-provideAuthentication(useAuthentication())
+provideAuthentication(useAuthentication(environment))
 
 onMounted(async () => {
-  const authenticationService = await useAuthenticationService()
+  const authenticationService = await useAuthenticationService(environment)
   await authenticationService.initialize()
   initialized.value = true
 })

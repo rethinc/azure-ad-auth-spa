@@ -4,6 +4,14 @@
 
 * node dependency in packages.json "@types/node": "18.8.0" is used as workaround for this [Bug](https://github.com/vuejs/core/pull/6855)
 
+## Configuration
+| **Environment Variable**                 | **Description**                                                                                                                                                                                                                                                                                                                                                                                               | 
+|------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| VITE_FRONTEND_APP_URL                    | Url of the front end app, i.e. http://localhost:5173                                                                                                                                                                                                                                                                                                                                                          |
+| VITE_APP_CONFIGURATION_CONNECTION_STRING | Connection String for Azure App Configuration. Used for feature toggles. You can find it [here](https://portal.azure.com/#@learn4lifeschweiz.onmicrosoft.com/resource/subscriptions/0937e050-07a8-4a38-9b98-fdfd81d50013/resourcegroups/infrastructure/providers/Microsoft.AppConfiguration/configurationStores/l4l-configuration/keys). <br/> **ATTENTION: Make sure to use a read-only connection string.** |
+| VITE_APP_SENTRY_CONNECTION_STRING        | Sentry connection string.                                                                                                                                                                                                                                                                                                                                                                                     |
+
+
 ## Development
 
 Install nvm [https://github.com/nvm-sh/nvm#installing-and-updating](https://github.com/nvm-sh/nvm#installing-and-updating)

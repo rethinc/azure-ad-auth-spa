@@ -4,10 +4,11 @@ import {
   NavigationGuardNext,
   RouteLocation,
 } from 'vue-router'
-import AuthenticatedApp from '@/application/app/AuthenticatedApp.vue'
 import { useAuthenticationService } from '@/application/app/authentication/AuthenticationService'
 import LoginPage from '@/application/login/LoginPage.vue'
 import { appRoutes } from '@/application/app/routes'
+import { loadEnvironment } from '@/Environment'
+import AuthenticatedApp from '@/application/app/AuthenticatedApp.vue'
 
 const appRoute = {
   path: '/app',
@@ -17,7 +18,9 @@ const appRoute = {
     from: RouteLocation,
     next: NavigationGuardNext
   ) => {
-    const authenticationService = useAuthenticationService()
+    const authenticationService = useAuthenticationService(
+      await loadEnvironment()
+    )
     if (await authenticationService.isAuthenticated()) {
       const loginTargetPath = authenticationService.getAndClearLoginTargetPath()
       if (loginTargetPath !== null) {
@@ -41,7 +44,9 @@ const loginRoute = {
     from: RouteLocation,
     next: NavigationGuardNext
   ) => {
-    const authenticationService = useAuthenticationService()
+    const authenticationService = useAuthenticationService(
+      await loadEnvironment()
+    )
     if (await authenticationService.isAuthenticated()) {
       return next({ path: '/app' })
     } else {

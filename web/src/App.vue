@@ -1,7 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { Environment, loadEnvironment } from '@/Environment'
+import InitializedApp from '@/InitializedApp.vue'
+
+const environment = ref<Environment>()
+
+onMounted(async () => {
+  environment.value = await loadEnvironment()
+})
+</script>
 
 <template>
-  <RouterView />
+  <InitializedApp v-if="environment" :environment="environment">
+    <RouterView />
+  </InitializedApp>
 </template>
 
 <style lang="scss">
