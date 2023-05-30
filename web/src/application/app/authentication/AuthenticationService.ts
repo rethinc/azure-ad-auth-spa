@@ -5,6 +5,7 @@ import { useMsal } from '@/msal.use'
 export interface AuthenticationService {
   initialize: () => Promise<void>
   getAccessToken: () => Promise<string>
+  getUserName: () => Promise<string | undefined>
   isAuthenticated: () => Promise<boolean>
   handleRedirectResponse: () => Promise<AuthenticationResult | null>
   logIn: () => Promise<void>
@@ -35,6 +36,19 @@ const authenticationService = (
     } catch (e) {
       await logIn()
       return ''
+    }
+  }
+
+  const getUserName = async (): Promise<string | undefined> => {
+    const callbackResult = await handleRedirectResponse()
+    if (callbackResult?.account?.username !== undefined) {
+      return callbackResult.account.username
+    }
+    try {
+      const authResult = await msal.acquireTokenSilent(tokenRequest)
+      return authResult.account?.username ?? undefined
+    } catch (e) {
+      return undefined
     }
   }
 
@@ -75,6 +89,7 @@ const authenticationService = (
   return {
     initialize,
     getAccessToken,
+    getUserName,
     isAuthenticated,
     handleRedirectResponse,
     logIn,

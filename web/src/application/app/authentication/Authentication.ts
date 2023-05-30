@@ -5,6 +5,7 @@ import {
 
 export interface Authentication {
   getAccessToken: () => Promise<string>
+  getUserName: () => Promise<string | undefined>
 }
 
 const authentication = (
@@ -14,8 +15,13 @@ const authentication = (
     return authenticationServie.getAccessToken()
   }
 
+  const getUserName = (): Promise<string | undefined> => {
+    return authenticationServie.getUserName()
+  }
+
   return {
     getAccessToken,
+    getUserName,
   }
 }
 
