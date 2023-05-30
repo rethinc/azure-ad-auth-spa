@@ -18,7 +18,8 @@ const appRoute = {
     next: NavigationGuardNext
   ) => {
     const authenticationService = await useAuthenticationService()
-    if (await authenticationService.isAuthenticated()) {
+    const redirectResult = await authenticationService.handleRedirectResponse()
+    if (redirectResult || (await authenticationService.isAuthenticated())) {
       const loginTargetPath = authenticationService.getAndClearLoginTargetPath()
       if (loginTargetPath !== null) {
         return next({ path: loginTargetPath })
@@ -33,14 +34,32 @@ const appRoute = {
   children: appRoutes,
 }
 
+const loginRoute = {
+  path: '/login',
+  component: LoginPage,
+  beforeEnter: async (
+    to: RouteLocation,
+    from: RouteLocation,
+    next: NavigationGuardNext
+  ) => {
+    console.log('entering /login')
+    const authenticationService = await useAuthenticationService()
+    const redirectResult = await authenticationService.handleRedirectResponse()
+    if (redirectResult || (await authenticationService.isAuthenticated())) {
+      console.log('redirecting to app')
+      return next({ path: '/app' })
+    } else {
+      console.log('staying on /login')
+      return next()
+    }
+  },
+}
+
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
     appRoute,
-    {
-      path: '/login',
-      component: LoginPage,
-    },
+    loginRoute,
     {
       path: '/:pathMatch(.*)*',
       redirect: { path: '/app' },

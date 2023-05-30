@@ -1,10 +1,14 @@
-import { InteractionRequiredAuthError } from '@azure/msal-common'
+import {
+  AuthenticationResult,
+  InteractionRequiredAuthError,
+} from '@azure/msal-common'
 import { PublicClientApplication } from '@azure/msal-browser'
 import { useMsal } from '@/msal.use'
 
 interface AuthenticationService {
   getAccessToken: () => Promise<string>
   isAuthenticated: () => Promise<boolean>
+  handleRedirectResponse: () => Promise<AuthenticationResult | null>
   logIn: () => Promise<void>
   setLoginTargetPath: (fullPath: string) => void
   getAndClearLoginTargetPath: () => string | null
@@ -31,6 +35,7 @@ const authenticationService = (
   }
 
   const logIn = async (): Promise<void> => {
+    await handleRedirectResponse()
     await msal.acquireTokenRedirect(tokenRequest)
   }
 
@@ -42,6 +47,13 @@ const authenticationService = (
       return false
     }
   }
+
+  const handleRedirectResponse =
+    async (): Promise<AuthenticationResult | null> => {
+      const result = await msal.handleRedirectPromise()
+      console.log('Handled redirect response. Token:', result?.accessToken)
+      return result
+    }
 
   const loginTargetPathKey = 'AuthenticationService.loginTargetPath'
 
@@ -57,6 +69,7 @@ const authenticationService = (
   return {
     getAccessToken,
     isAuthenticated,
+    handleRedirectResponse,
     logIn,
     setLoginTargetPath,
     getAndClearLoginTargetPath,

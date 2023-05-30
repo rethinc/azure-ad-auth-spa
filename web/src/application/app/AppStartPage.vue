@@ -2,8 +2,8 @@
 
 <template>
   <ul>
-    <li><RouterLink to="/persons">Persons</RouterLink></li>
-    <li><RouterLink to="/timeslots">Timeslots</RouterLink></li>
+    <li><RouterLink to="/app/persons">Persons</RouterLink></li>
+    <li><RouterLink to="/app/timeslots">Timeslots</RouterLink></li>
   </ul>
   <RouterView />
 </template>
