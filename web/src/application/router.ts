@@ -6,7 +6,7 @@ import {
 } from 'vue-router'
 import AuthenticatedApp from '@/application/app/AuthenticatedApp.vue'
 import { useAuthenticationService } from '@/application/app/authentication/AuthenticationService'
-import LoginPage from '@/application/app/authentication/LoginPage.vue'
+import LoginPage from '@/application/login/LoginPage.vue'
 import { appRoutes } from '@/application/app/routes'
 
 const appRoute = {
